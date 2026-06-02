@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ko">
 <head>
@@ -82,7 +83,7 @@
     }
 
     .item-memo {
-      width: 34%;
+      width: 17%;
       left: 28%;
       top: 76%;
       z-index: 1;
@@ -137,15 +138,15 @@
 
     .item-earphone {
       width: 30%;
-      right: 7%;
+      right: 21%;
       top: 63%;
       z-index: 5;
     }
 
     .item-lip {
-      width: 43%;
-      left: 36%;
-      top: 80%;
+      width: 60%;
+      left: 10%;
+      top: 60%;
       z-index: 7;
       transform: translateY(14px) scale(0.94) rotate(90deg);
     }
@@ -182,7 +183,7 @@
     }
 
     .tin-case.is-open .item-lip.is-visible {
-      transform: translateY(0) scale(1) rotate(2deg);
+      transform: translateY(0) scale(1) rotate(90deg);
     }
 
     @media (max-width: 700px) {
@@ -195,8 +196,8 @@
 </head>
 
 <body>
-  <button class="tin-case" type="button" aria-label="틴 케이스 열기" aria-pressed="false">
-    <img class="case-img case-open" src="./images/case.open.png" alt="열린 틴 케이스" />
+  <button class="tin-case" type="button" aria-label="틴케이스 열기" aria-pressed="false">
+    <img class="case-img case-open" src="./images/case.open.png" alt="열린 틴케이스" />
 
     <div class="case-items" aria-hidden="true">
       <img class="item item-memo" src="./images/memo.png" alt="" />
@@ -210,7 +211,7 @@
       <img class="item item-lip" src="./images/lip.png" alt="" />
     </div>
 
-    <img class="case-img case-closed" src="./images/close.png" alt="닫힌 틴 케이스" />
+    <img class="case-img case-closed" src="./images/close.png" alt="닫힌 틴케이스" />
   </button>
 
   <script>
@@ -245,7 +246,7 @@
       const isOpen = tinCase.classList.toggle("is-open");
 
       tinCase.setAttribute("aria-pressed", String(isOpen));
-      tinCase.setAttribute("aria-label", isOpen ? "틴 케이스 닫기" : "틴 케이스 열기");
+      tinCase.setAttribute("aria-label", isOpen ? "틴케이스 닫기" : "틴케이스 열기");
 
       if (isOpen) {
         showItemsRandomly();
