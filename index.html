@@ -1,87 +1,259 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-        }
-        .visual {
-            background-image: url(./images/visual_bg.jpg);
-        }
-        .inner {
-            height: 646px;
-            width: 1100px;
-            margin: 0 auto;
-            background-color: skyblue;
-            position: relative;
-        }
-        .visual .title {
-            position:absolute;
-            top: 88px;
-            left: -10px;
-        }
-        .visual .pcup1 {
-            position: absolute;
-            bottom: 0;
-            right: -47px;
-            background-color: orange;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tin Case</title>
 
-        .visual .cup1.text {
-            position: absolute;
-            top: -30px;
-            right: 220px;
-        }
-        .visual .pcup2 {
-            position: absolute;
-            bottom: 0;
-            right: 162px;
-            background-color: yellowgreen;
-        }
-        .visual .cup2.text {
-            position: absolute;
-            top: 150px;
-            right: 250px;
-        }
-        .visual .pspoon {
-            position: absolute;
-            bottom: 0;
-            left: 275px;
-        }
-    </style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-family: system-ui, sans-serif;
+      background-image: url("./images/back.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .tin-case {
+      position: relative;
+      width: min(92vw, 118vh);
+      aspect-ratio: 917 / 498;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      cursor: pointer;
+      transform: scale(1.08);
+    }
+
+    .case-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+      transition:
+        opacity 0.45s ease,
+        transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .case-open {
+      z-index: 1;
+      opacity: 0;
+      transform: scale(1);
+    }
+
+    .case-closed {
+      z-index: 3;
+      opacity: 1;
+      transform: translateY(25%) scale(1.38);
+      transform-origin: center center;
+    }
+
+    .case-items {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .item {
+      position: absolute;
+      display: block;
+      height: auto;
+      object-fit: contain;
+      user-select: none;
+      opacity: 0;
+      transform: translateY(14px) scale(0.94);
+      filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.18));
+      transition:
+        opacity 0.5s ease,
+        transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .item-memo {
+      width: 34%;
+      left: 28%;
+      top: 76%;
+      z-index: 1;
+      transform: translateY(14px) scale(0.94) rotate(90deg);
+      filter: none;
+    }
+
+    .item-doily {
+      width: 50%;
+      left: 14%;
+      top: 4%;
+      z-index: 1;
+    }
+
+    .item-photo {
+      width: 18%;
+      left: 32%;
+      top: 12%;
+      z-index: 3;
+      transform: translateY(14px) scale(0.94) rotate(-7deg);
+    }
+
+    .item-star {
+      width: 20%;
+      left: 20%;
+      top: 5%;
+      z-index: 5;
+    }
+
+    .item-note {
+      width: 18%;
+      left: 47%;
+      top: 34%;
+      z-index: 4;
+      transform: translateY(14px) scale(0.94) rotate(4deg);
+    }
+
+    .item-glass {
+      width: 40%;
+      left: 25%;
+      top: 41%;
+      z-index: 3;
+      transform: translateY(14px) scale(0.94) rotate(-5deg);
+    }
+
+    .item-cat {
+      width: 18%;
+      left: 12%;
+      top: 68%;
+      z-index: 6;
+    }
+
+    .item-earphone {
+      width: 30%;
+      right: 7%;
+      top: 63%;
+      z-index: 5;
+    }
+
+    .item-lip {
+      width: 43%;
+      left: 36%;
+      top: 80%;
+      z-index: 7;
+      transform: translateY(14px) scale(0.94) rotate(90deg);
+    }
+
+    .tin-case.is-open .case-open {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .tin-case.is-open .case-closed {
+      opacity: 0;
+      transform: translateY(25%) scale(1.38);
+    }
+
+    .tin-case.is-open .item.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .tin-case.is-open .item-memo.is-visible {
+      transform: translateY(0) scale(1) rotate(90deg);
+    }
+
+    .tin-case.is-open .item-photo.is-visible {
+      transform: translateY(0) scale(1) rotate(-7deg);
+    }
+
+    .tin-case.is-open .item-note.is-visible {
+      transform: translateY(0) scale(1) rotate(4deg);
+    }
+
+    .tin-case.is-open .item-glass.is-visible {
+      transform: translateY(0) scale(1) rotate(-5deg);
+    }
+
+    .tin-case.is-open .item-lip.is-visible {
+      transform: translateY(0) scale(1) rotate(2deg);
+    }
+
+    @media (max-width: 700px) {
+      .tin-case {
+        width: 116vw;
+        transform: scale(1);
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <section class="visual">
-        <div class="inner">
-            <div class="title fade-in">
-                <img src="./images/visual_title.png" alt="">
-            </div>
-            <div class="pcup1 fade-in">
-                <img src="./images/visual_cup1.png" alt="" class="cup1 image">
-                <img src="./images/visual_cup1_text.png" alt="" class="cup1 text">
-            </div>
-            <div class="pcup2 fade-in">
-                <img src="./images/visual_cup2.png" alt="" class="cup2 image">
-                <img src="./images/visual_cup2_text.png" alt="" class="cup2 text">
-            </div>
-            <div class="pspoon fade-in">
-                <img src="./images/visual_spoon.png" alt="">
-            </div>
-        </div>
-    </section>
-    <script>
-        const fadeEls = document.querySelectorAll('.visual .fade-in');
-        gsap.from(fadeEls, {
-            duration: 2,
-            scale: .3,
-            ease: "none",
-            opacity: 0,
-            stagger: 0.7
-        })
-    </script>
+  <button class="tin-case" type="button" aria-label="틴 케이스 열기" aria-pressed="false">
+    <img class="case-img case-open" src="./images/case.open.png" alt="열린 틴 케이스" />
+
+    <div class="case-items" aria-hidden="true">
+      <img class="item item-memo" src="./images/memo.png" alt="" />
+      <img class="item item-doily" src="./images/aa.png" alt="" />
+      <img class="item item-photo" src="./images/ww.jpg" alt="" />
+      <img class="item item-star" src="./images/star.jpg.png" alt="" />
+      <img class="item item-note" src="./images/xx.png" alt="" />
+      <img class="item item-glass" src="./images/glass.png" alt="" />
+      <img class="item item-cat" src="./images/cat.png" alt="" />
+      <img class="item item-earphone" src="./images/ss.png" alt="" />
+      <img class="item item-lip" src="./images/lip.png" alt="" />
+    </div>
+
+    <img class="case-img case-closed" src="./images/close.png" alt="닫힌 틴 케이스" />
+  </button>
+
+  <script>
+    const tinCase = document.querySelector(".tin-case");
+    const items = [...document.querySelectorAll(".item")];
+
+    function shuffle(array) {
+      return [...array].sort(() => Math.random() - 0.5);
+    }
+
+    function showItemsRandomly() {
+      items.forEach((item) => {
+        item.classList.remove("is-visible");
+      });
+
+      const shuffledItems = shuffle(items);
+
+      shuffledItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add("is-visible");
+        }, 450 + index * 130);
+      });
+    }
+
+    function hideItems() {
+      items.forEach((item) => {
+        item.classList.remove("is-visible");
+      });
+    }
+
+    tinCase.addEventListener("click", () => {
+      const isOpen = tinCase.classList.toggle("is-open");
+
+      tinCase.setAttribute("aria-pressed", String(isOpen));
+      tinCase.setAttribute("aria-label", isOpen ? "틴 케이스 닫기" : "틴 케이스 열기");
+
+      if (isOpen) {
+        showItemsRandomly();
+      } else {
+        hideItems();
+      }
+    });
+  </script>
 </body>
 </html>
+```
